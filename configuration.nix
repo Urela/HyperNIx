@@ -171,10 +171,10 @@
     vimAlias = true;
     defaultEditor = true;
     configure = {
-    customRC = ''
+      customRC = ''
            set background=dark
            syntax on                               " syntax highlighting
-           set nohls                                   " no syntax highlighting on search
+           set nohls                               " no syntax highlighting on search
            set mouse=a                             " enable mouse click
            set mouse=v                             " middle-click paste with 
            set nocompatible                        " disable compatibility to old-time vi
@@ -207,35 +207,49 @@
              set termguicolors
            endif
 
+           " let g:vimwiki_listsyms = '✗○◐●✓'
+           let g:vimwiki_list = [{'path': '~/Ife/', 'syntax': 'markdown', 'ext': '.md'}]
+           au FileType vimwiki setlocal shiftwidth=2 tabstop=2 expandtab
+
+           command! Diary VimwikiDiaryIndex
+           augroup vimwikigroup
+               autocmd!
+               " automatically update links on read diary
+               autocmd BufRead,BufNewFile diary.wiki VimwikiDiaryGenerateLinks
+           augroup end
+
+
+           lua << END
            require('lualine').setup()
+           END
       '';
       packages.myVimPackage = with pkgs.vimPlugins; {
         start = [ 
-        vimwiki 
-        {
-          plugin = lualine-nvim;
-          type = "lua";
-          configure = {
-          config = ''
-            local function metals_status()
-              return vim.g["metals_status"] or ""
-            end
-            require('lualine').setup(
-              {
-                options = { theme = 'dracula-nvim' },
-                sections = {
-                  lualine_a = { 'mode' },
-                  lualine_b = { 'branch', 'diff' },
-                  lualine_c = { 'filename', metals_status },
-                  lualine_x = {'encoding', 'filetype'},
-                  lualine_y = {'progress'},
-                  lualine_z = {'location'}
+          vimwiki 
+          {
+            plugin = lualine-nvim;
+            type = "lua";
+            configure = {
+            config = ''
+              local function metals_status()
+                return vim.g["metals_status"] or ""
+              end
+              require('lualine').setup(
+                {
+                  options = { theme = 'dracula-nvim' },
+                  sections = {
+                    lualine_a = { 'mode' },
+                    lualine_b = { 'branch', 'diff' },
+                    lualine_c = { 'filename', metals_status },
+                    lualine_x = {'encoding', 'filetype'},
+                    lualine_y = {'progress'},
+                    lualine_z = {'location'}
+                  }
                 }
-              }
-            )
-          '';
-          };
-        } # Status Line
+              )
+            '';
+            };
+          } # Status Line
 
         ];
         opt = [];
