@@ -3,7 +3,7 @@
 # initialize wallpaper daemon
 swww init &
 # set wallpaper
-swww img ~/Downloads/jezael-melgoza-2FiXtdnVhjQ-unsplash &
+swww img ~/Downloads/josh-sorenson-Z33d85enIBI-unsplash.jpg &
 
 # networking
 nm-applet --indicator &
