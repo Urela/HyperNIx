@@ -21,6 +21,8 @@
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot";
     boot.loader.grub.useOSProber = true;
+    boot.supportedFilesystems = [ "ntfs" ];
+
 
   networking.hostName = "Nix"; # Define your hostname.
 # Pick only one of the below networking options.
@@ -208,7 +210,7 @@
            endif
 
            " let g:vimwiki_listsyms = '✗○◐●✓'
-           let g:vimwiki_list = [{'path': '~/Ife/', 'syntax': 'markdown', 'ext': '.md'}]
+           let g:vimwiki_list = [{'path': '~/niani/', 'syntax': 'markdown', 'ext': '.md'}]
            au FileType vimwiki setlocal shiftwidth=2 tabstop=2 expandtab
 
            command! Diary VimwikiDiaryIndex
@@ -262,7 +264,8 @@
 # List packages installed in system profile. To search, run:
 # $ nix search wget
     environment.systemPackages = with pkgs; [
-
+      clang
+      zathura
       killall
       spotify
       zsh
@@ -273,6 +276,9 @@
       obsidian
       playerctl
       vscode
+      #gedit # text editor
+      evince # document viewer
+
       chromium
       zotero
       htop
@@ -363,8 +369,7 @@
         ripgrep
         rofi-wayland
         rustup
-        #scrot
-        grim
+        grim                             # screenshots
         slurp 
         sddm
         shellcheck
@@ -380,7 +385,7 @@
         wl-color-picker
         wofi
         wlroots
-        wl-clipboard
+        wl-clipboard                     # system keyboard
         xdg-desktop-portal-hyprland
         xdg-desktop-portal-gtk
         xdg-utils
@@ -401,6 +406,9 @@
     thunar-archive-plugin
     thunar-volman
   ];
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
+
 
 
 
